@@ -9,6 +9,7 @@ defmodule Re.Factory do
 
   def user_factory do
     %Re.User{
+      uuid: UUID.uuid4(),
       name: Name.name(),
       email: Internet.email(),
       phone: Phone.EnUs.phone(),
@@ -147,6 +148,7 @@ defmodule Re.Factory do
 
   def development_factory do
     %Re.Development{
+      uuid: UUID.uuid4(),
       name: Name.name(),
       title: Name.name(),
       phase: Enum.random(~w(pre-launch planning building delivered)),
