@@ -19,7 +19,7 @@ defmodule Re.Calendars.TourAppointments do
     lead_id = UUID.uuid4()
 
     params
-    |> schedule_tour_changeset(%{lead_id: lead_id, listing_id: listing.uuid, user_id: user.id})
+    |> schedule_tour_changeset(%{lead_id: lead_id, listing_id: listing.uuid, user_id: user.uuid})
     |> ScheduleTourAppointment.new()
     |> Router.dispatch(consistency: :strong)
     |> case do
@@ -36,7 +36,7 @@ defmodule Re.Calendars.TourAppointments do
         wants_pictures: :boolean,
         wants_tour: :boolean,
         options: {:array, Re.Calendars.Option},
-        user_id: :id,
+        user_id: Ecto.UUID,
         listing_id: Ecto.UUID
       }
     }

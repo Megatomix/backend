@@ -17,7 +17,7 @@ defmodule Re.Calendars.Projectors.TourAppointmentScheduled do
         wants_tour: tas.wants_tour,
         wants_pictures: tas.wants_pictures,
         options: tas.options,
-        user_id: tas.user_id,
+        user_uuid: tas.user_id,
         listing_uuid: tas.listing_id
       }
     )

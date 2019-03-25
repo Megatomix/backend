@@ -9,7 +9,10 @@ defmodule Re.Calendars.Projections.TourAppointment do
 
     embeds_many :options, Re.Calendars.Option
 
-    belongs_to :user, Re.User
+    belongs_to :user, Re.User,
+      references: :uuid,
+      foreign_key: :user_uuid,
+      type: Ecto.UUID
 
     belongs_to :listing, Re.Listing,
       references: :uuid,

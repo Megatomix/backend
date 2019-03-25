@@ -19,5 +19,7 @@ defmodule Re.Calendars.TourAppointmentsTest do
       assert tour_appointment.wants_pictures
       assert tour_appointment.options == []
     end)
+
+    assert [_] = Repo.all(TourAppointment)
   end
 end
