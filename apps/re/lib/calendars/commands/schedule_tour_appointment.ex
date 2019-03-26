@@ -1,12 +1,11 @@
 defmodule Re.Calendars.Commands.ScheduleTourAppointment do
-  defstruct [
-    :lead_id,
-    :wants_tour,
-    :wants_pictures,
-    :options,
-    :user_id,
-    :listing_id
-  ]
+  defstruct aggregate_id: "tour_appointment",
+            lead_id: nil,
+            wants_tour: nil,
+            wants_pictures: nil,
+            options: nil,
+            user_id: nil,
+            listing_id: nil
 
   alias Ecto.Changeset
 
@@ -14,6 +13,7 @@ defmodule Re.Calendars.Commands.ScheduleTourAppointment do
 
   def new(changeset) do
     %__MODULE__{
+      aggregate_id: "tour_appointment",
       lead_id: Changeset.get_field(changeset, :lead_id),
       wants_tour: Changeset.get_field(changeset, :wants_tour),
       wants_pictures: Changeset.get_field(changeset, :wants_pictures),

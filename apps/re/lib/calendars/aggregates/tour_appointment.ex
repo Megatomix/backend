@@ -34,11 +34,7 @@ defmodule Re.Calendars.Aggregates.TourAppointment do
     }
   end
 
-  def apply(%TourAppointment{} = ta, %TourAppointmentScheduled{lead_id: lead_id}) do
-    %TourAppointment{ta | uuid: lead_id}
-  end
+  def apply(%TourAppointment{} = ta, %TourAppointmentScheduled{}), do: ta
 
-  def apply(%TourAppointment{} = ta, %TourAppointmentMigrated{lead_id: lead_id}) do
-    %TourAppointment{ta | uuid: lead_id}
-  end
+  def apply(%TourAppointment{} = ta, %TourAppointmentMigrated{}), do: ta
 end

@@ -13,6 +13,6 @@ defmodule Re.Router do
       MigrateTourAppointment
     ],
     to: TourAppointment,
-    identity: :lead_id
+    identity: :aggregate_id
   )
 end
