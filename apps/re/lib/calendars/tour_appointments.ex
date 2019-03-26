@@ -35,7 +35,7 @@ defmodule Re.Calendars.TourAppointments do
         lead_id: :string,
         wants_pictures: :boolean,
         wants_tour: :boolean,
-        options: {:array, Re.Calendars.Option},
+        options: {:array, :naive_datetime},
         user_id: Ecto.UUID,
         listing_id: Ecto.UUID
       }
