@@ -84,9 +84,24 @@ defmodule Re.Listings do
   def get_partial_preloaded(id, preload),
     do: do_get(Queries.preload_relations(Listing, preload), id)
 
-  def insert(params, address, user) do
+  def insert(params, address, user, development \\ nil)
+
+  def insert(params, address, user, nil) do
     with {:ok, user} <- validate_phone_number(params, user),
          do: do_insert(params, address, user)
+  end
+
+  def insert(params, address, user, development) do
+    %Listing{}
+    |> Changeset.change(%{
+      development_uuid: development.uuid,
+      address_id: address.id,
+      user_id: user.id,
+      is_exportable: false
+    })
+    |> Listing.development_changeset(params)
+    |> Repo.insert()
+    |> publish_if_admin(user.role)
   end
 
   defp do_insert(params, address, user) do
@@ -128,6 +143,16 @@ defmodule Re.Listings do
     changeset
     |> Repo.update()
     |> PubSub.publish_update(changeset, "update_listing", %{user: user})
+  end
+
+  def update_price(listing, new_price) do
+    changeset =
+      listing
+      |> Changeset.change(price: new_price)
+
+    changeset
+    |> Repo.update()
+    |> PubSub.publish_update(changeset, "update_listing")
   end
 
   defp deactivate_if_not_admin(changeset, %{role: "user"}),
