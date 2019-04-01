@@ -1,7 +1,10 @@
 defmodule Re.Calendars.Supervisor do
   use Supervisor
 
-  alias Re.Calendars.Projectors.TourAppointmentScheduled
+  alias Re.Calendars.{
+    Projectors.TourAppointmentScheduled,
+    Handlers.NotifyEmail
+  }
 
   def start_link do
     Supervisor.start_link(__MODULE__, [], name: __MODULE__)
@@ -10,7 +13,8 @@ defmodule Re.Calendars.Supervisor do
   def init(_arg) do
     Supervisor.init(
       [
-        TourAppointmentScheduled
+        TourAppointmentScheduled,
+        NotifyEmail
       ],
       strategy: :one_for_one
     )
