@@ -1,8 +1,3 @@
-{:ok, _pid} =
-  Commanded.EventStore.Adapters.InMemory.start_link(
-    serializer: Commanded.Serialization.JsonSerializer
-  )
-
 ExUnit.configure formatters: [JUnitFormatter, ExUnit.CLIFormatter]
 
 ExUnit.start()

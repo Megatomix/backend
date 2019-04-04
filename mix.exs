@@ -27,17 +27,13 @@ defmodule Re.Umbrella.Mixfile do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       setup: [
+        "ecto.create --quiet",
+        "ecto.migrate --quiet",
         "event_store.create --quiet",
-        "event_store.init --quiet",
-        "ecto.create --quiet",
-        "ecto.migrate --quiet"
-      ],
-      setup_test: [
-        "ecto.create --quiet",
-        "ecto.migrate --quiet"
+        "event_store.init --quiet"
       ],
       reset: ["event_store.drop", "ecto.drop", "setup"],
-      test: ["setup_test", "test"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "git.hook": &git_hook/1,
       compose: &compose/1
     ]

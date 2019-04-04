@@ -144,7 +144,30 @@ defmodule Re.Factory do
 
   def notify_when_covered_factory, do: %Re.Interests.NotifyWhenCovered{}
 
-  def tour_appointment_factory, do: %Re.Calendars.TourAppointment{}
+  def tour_appointment_factory do
+    %Re.Calendars.TourAppointment{
+      wants_tour: Enum.random([true, false]),
+      wants_pictures: Enum.random([true, false]),
+      options: build_list(3, :calendar_option)
+    }
+  end
+
+  def calendar_option_factory do
+    %Re.Calendars.Option{datetime: NaiveDateTime.utc_now()}
+  end
+
+  def tour_appointment_command_factory do
+    %{
+      lead_id: UUID.uuid4(),
+      wants_tour: Enum.random([true, false]),
+      wants_pictures: Enum.random([true, false]),
+      options: [
+        ~N[2019-03-26 09:00:00],
+        ~N[2019-03-26 10:00:00],
+        ~N[2019-03-26 11:00:00]
+      ]
+    }
+  end
 
   def development_factory do
     %Re.Development{

@@ -2,6 +2,7 @@ defmodule Re.Calendars.Option do
   @moduledoc """
   Embedded schema for tour appointment with datetime option
   """
+  @derive Jason.Encoder
   use Ecto.Schema
 
   embedded_schema do

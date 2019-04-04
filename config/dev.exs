@@ -33,5 +33,8 @@ config :eventstore, EventStore.Storage,
   hostname: System.get_env("POSTGRES_HOSTNAME") || "localhost",
   pool_size: 10
 
+config :commanded,
+  event_store_adapter: Commanded.EventStore.Adapters.EventStore
+
 config :re_integrations, ReIntegrations.Notifications.Emails.Mailer,
   adapter: Swoosh.Adapters.Local

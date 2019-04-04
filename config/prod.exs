@@ -38,6 +38,9 @@ config :eventstore, EventStore.Storage,
   ssl: true,
   types: EventStore.PostgresTypes
 
+config :commanded,
+  event_store_adapter: Commanded.EventStore.Adapters.EventStore
+
 config :re_integrations, ReIntegrations.Notifications.Emails.Mailer,
   adapter: Swoosh.Adapters.Sendgrid,
   api_key: System.get_env("SEND_GRID_API_KEY")

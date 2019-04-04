@@ -7,6 +7,8 @@ config :re_web, ReWeb.Endpoint,
 
 config :logger, level: :warn
 
+config :ex_unit, capture_log: true
+
 config :re_web, ReWeb.Guardian,
   allowed_algos: ["ES512"],
   secret_key: %{

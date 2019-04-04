@@ -9,20 +9,21 @@ defmodule Re.Application do
 
   alias Re.{
     Listings.History.Server,
-    Statistics.Visualizations
+    Statistics.Visualizations,
+    Calendars
   }
 
   def start(_type, _args) do
-    attach_telemetry()
+    attach_telemetry(Mix.env())
 
     children =
       [
         supervisor(Re.Repo, []),
-        supervisor(Phoenix.PubSub.PG2, [Re.PubSub, []])
+        supervisor(Phoenix.PubSub.PG2, [Re.PubSub, []]),
+        supervisor(Calendars.Supervisor, [])
       ] ++ extra_processes(Mix.env())
 
-    opts = [strategy: :one_for_one, name: Re.Supervisor]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children, strategy: :one_for_one, name: Re.Supervisor)
   end
 
   defp extra_processes(:test), do: []
@@ -33,7 +34,9 @@ defmodule Re.Application do
       worker(Visualizations, [])
     ]
 
-  defp attach_telemetry do
+  defp attach_telemetry(:test), do: :ok
+
+  defp attach_telemetry(_) do
     :ok =
       :telemetry.attach(
         "timber-ecto-query-handler",
