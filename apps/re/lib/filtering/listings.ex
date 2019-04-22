@@ -36,7 +36,7 @@ defmodule Re.Filtering.Listings do
     |> Map.get(:changes)
   end
 
-  defp build_query(params, query) do
+  defp build_query(params, _query) do
     result = Enum.reduce(params, [], fn el, acc -> [attr_filter(el) | acc] end)
 
     %{
