@@ -50,6 +50,10 @@ defmodule Mix.Tasks.Re.Tags.Create do
   def run(_) do
     Mix.EctoSQL.ensure_started(Re.Repo, [])
 
+    insert_all()
+  end
+
+  def insert_all() do
     Enum.map(@tags, &insert/1)
   end
 
