@@ -202,7 +202,7 @@ defmodule Re.Factory do
       uuid: UUID.uuid4(),
       name: name,
       name_slug: name_slug,
-      category: Enum.random(~w(infrastructure location realty view)),
+      category: Enum.random(~w(infrastructure location realty view concierge)),
       visibility: "public"
     }
   end
@@ -214,6 +214,22 @@ defmodule Re.Factory do
       name: Name.name(),
       email: Internet.email(),
       message: Shakespeare.hamlet()
+    }
+  end
+
+  def facebook_buyer_lead_factory do
+    %Re.Leads.FacebookBuyer{
+      uuid: UUID.uuid4(),
+      full_name: Name.name(),
+      email: Internet.email()
+    }
+  end
+
+  def imovelweb_buyer_lead_factory do
+    %Re.Leads.ImovelWebBuyer{
+      uuid: UUID.uuid4(),
+      name: Name.name(),
+      email: Internet.email()
     }
   end
 

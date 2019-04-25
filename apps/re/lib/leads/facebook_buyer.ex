@@ -6,7 +6,14 @@ defmodule Re.Leads.FacebookBuyer do
 
   import Ecto.Changeset
 
-  @primary_key {:uuid, :binary_id, autogenerate: true}
+  require Logger
+
+  alias Re.{
+    Accounts.Users,
+    Leads.Buyer
+  }
+
+  @primary_key {:uuid, :binary_id, autogenerate: false}
 
   schema "facebook_buyer_leads" do
     field :full_name, :string
@@ -32,5 +39,29 @@ defmodule Re.Leads.FacebookBuyer do
     |> validate_inclusion(:location, @locations,
       message: "should be one of: [#{Enum.join(@locations, " ")}]"
     )
+    |> generate_uuid()
+  end
+
+  defp generate_uuid(changeset), do: Re.ChangesetHelper.generate_uuid(changeset)
+
+  def buyer_lead_changeset(nil), do: raise("Leads.FacebookBuyer not found")
+
+  def buyer_lead_changeset(lead) do
+    Buyer.changeset(%Buyer{}, %{
+      name: lead.full_name,
+      email: lead.email,
+      phone_number: lead.phone_number,
+      origin: "facebook",
+      user_uuid: extract_user_uuid(lead.phone_number)
+    })
+  end
+
+  defp extract_user_uuid(nil), do: nil
+
+  defp extract_user_uuid(phone_number) do
+    case Users.get_by_phone(phone_number) do
+      {:ok, user} -> user.uuid
+      _error -> nil
+    end
   end
 end
