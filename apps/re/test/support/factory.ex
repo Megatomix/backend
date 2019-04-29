@@ -167,7 +167,10 @@ defmodule Re.Factory do
       title: Name.name(),
       phase: Enum.random(~w(pre-launch planning building delivered)),
       builder: Name.name(),
-      description: Shakespeare.hamlet()
+      description: Shakespeare.hamlet(),
+      floor_count: Enum.random(1..20),
+      units_per_floor: Enum.random(1..20),
+      elevators: Enum.random(1..5)
     }
   end
 
@@ -204,6 +207,20 @@ defmodule Re.Factory do
       name_slug: name_slug,
       category: Enum.random(~w(infrastructure location realty view concierge)),
       visibility: "public"
+    }
+  end
+
+  def owner_contact_factory do
+    name = Name.name()
+
+    %Re.OwnerContact{
+      uuid: UUID.uuid4(),
+      name: name,
+      name_slug: Re.Slugs.sluggify(name),
+      phone: Phone.EnUs.phone(),
+      email: Enum.random([nil, Internet.email()]),
+      additional_phones: [Phone.EnUs.phone()],
+      additional_emails: [Internet.email()]
     }
   end
 
