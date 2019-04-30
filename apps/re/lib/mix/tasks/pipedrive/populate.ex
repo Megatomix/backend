@@ -30,7 +30,7 @@ defmodule Mix.Tasks.Re.Pipedrive.Populate do
     {:ok, user} = Re.Accounts.Users.get(1408)
 
     read_data()
-    |> Enum.map(& Map.put(&1, :user, user))
+    |> Enum.map(&Map.put(&1, :user, user))
     |> Enum.map(&operation_insert/1)
   end
 
@@ -76,7 +76,11 @@ defmodule Mix.Tasks.Re.Pipedrive.Populate do
          {owner_contact_params, _} <- Map.pop(params, :owner_contact),
          {:ok, owner_contact} <- upsert_owner_contact(owner_contact_params),
          {:ok, listing} <- Re.Listings.get_partial_preloaded(id, [:address, :user]) do
-      Re.Listings.update(listing, %{}, address: listing.address, user: user, owner_contact: owner_contact)
+      Re.Listings.update(listing, %{},
+        address: listing.address,
+        user: user,
+        owner_contact: owner_contact
+      )
     else
       _ -> {:ok, Map.get(attrs, :id)}
     end
