@@ -36,10 +36,9 @@ defmodule Re.Units do
     end
   end
 
-  def insert(params, development, listing) do
+  def insert(params, development) do
     %Unit{}
     |> Changeset.change(development_uuid: development.uuid)
-    |> Changeset.change(listing_id: listing.id)
     |> Unit.changeset(params)
     |> Repo.insert()
     |> publish_new()
