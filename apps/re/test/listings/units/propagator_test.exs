@@ -64,4 +64,49 @@ defmodule Re.Listings.Units.PropagatorTest do
       assert listing.balconies == unit_1.balconies
     end
   end
+
+  describe "create_listing/2" do
+    @tag dev: true
+    test "create listing from unit" do
+      development = insert(:development)
+
+      unit_1 = insert(:unit,
+        complement: "100",
+        price: 1_000_000,
+        property_tax: 1_000,
+        maintenance_fee: 1_000,
+        floor: "first",
+        rooms: 1,
+        bathrooms: 1,
+        restrooms: 1,
+        area: 100,
+        garage_spots: 1,
+        garage_type: "contract",
+        suites: 1,
+        balconies: 1,
+        status: "active",
+        development: development,
+      )
+
+      assert {:ok, listing} = Propagator.create_listing(unit_1)
+      assert listing.complement == unit_1.complement
+      assert listing.price == unit_1.price
+      assert listing.property_tax == unit_1.property_tax
+      assert listing.maintenance_fee == unit_1.maintenance_fee
+      assert listing.floor == unit_1.floor
+      assert listing.rooms == unit_1.rooms
+      assert listing.bathrooms == unit_1.bathrooms
+      assert listing.restrooms == unit_1.restrooms
+      assert listing.area == unit_1.area
+      assert listing.garage_spots == unit_1.garage_spots
+      assert listing.garage_type == unit_1.garage_type
+      assert listing.suites == unit_1.suites
+      assert listing.balconies == unit_1.balconies
+
+      assert listing.floor_count == development.floor_count
+      assert listing.unit_per_floor == development.units_per_floor
+      assert listing.elevators == development.elevators
+      assert listing.address_id == development.address_id
+    end
+  end
 end
