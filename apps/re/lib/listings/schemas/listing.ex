@@ -146,9 +146,13 @@ defmodule Re.Listing do
     |> calculate_price_per_area()
   end
 
-  @development_required ~w(type description has_elevator address_id user_id development_uuid)a
+  @development_required ~w(type description address_id user_id development_uuid price area)a
 
-  @development_optional ~w(matterport_code is_exclusive status is_release is_exportable)a
+  @development_optional ~w(rooms bathrooms garage_spots garage_type
+                     suites dependencies has_elevator complement floor
+                     matterport_code is_exclusive status property_tax
+                     maintenance_fee balconies restrooms is_release is_exportable
+                     orientation floor_count unit_per_floor elevators construction_year)a
 
   @development_attributes @development_required ++ @development_optional
 

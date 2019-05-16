@@ -9,26 +9,37 @@ defmodule Re.Listings.Units.Propagator do
   @unit_cloned_attributes ~w(complement price property_tax maintenance_fee floor rooms bathrooms
     restrooms area garage_spots garage_type suites dependencies balconies)a
 
-  @development_cloned_attributes ~w(floor_count units_per_floor elevators)a
+  @development_cloned_attributes ~w(description floor_count units_per_floor elevators)a
 
-  def create_listing(unit) do
+  def create_listing_from_unit(unit, user) do
+    {:ok, development} = Re.Developments.get(unit.development_uuid)
+    {:ok, address} = Re.Addresses.get_by_id(development.address_id)
+
     params =
-      Map.take(unit, @unit_cloned_attributes)
-      |> Map.merge(get_development_params(unit))
+      static_params()
+      |> Map.merge(params_from_development(development))
+      |> Map.merge(params_from_unit(unit))
 
-    %Re.Listing{}
-    |> Map.merge(params)
-    |> Re.Repo.insert()
+    Listings.insert(params, user: user, address: address, development: development)
   end
 
-  def get_development_params(%{development_uuid: development_uuid}) do
-    {:ok, dev} = Re.Developments.get(development_uuid)
+  def params_from_unit(unit) do
+    Map.take(unit, @unit_cloned_attributes)
+  end
 
+  def params_from_development(development) do
+    unit_per_floor = Map.get(development, :units_per_floor, 0)
+
+    Map.take(development, @development_cloned_attributes)
+    |> Map.put(:unit_per_floor, unit_per_floor)
+  end
+
+  def static_params() do
     %{
-      floor_count: dev.floor_count,
-      unit_per_floor: dev.units_per_floor,
-      elevators: dev.elevators,
-      address_id: dev.address_id
+      has_elevator: true,
+      type: "Apartamento",
+      is_release: true
+      # garage_type: "unknown"
     }
   end
 
