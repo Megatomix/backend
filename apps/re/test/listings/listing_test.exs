@@ -223,10 +223,9 @@ defmodule Re.ListingTest do
     @valid_development_attrs %{
       type: "Apartamento",
       description: "some content",
-      has_elevator: true,
       matterport_code: "",
-      is_exclusive: nil,
-      is_release: nil
+      price: 1_000_000,
+      area: 100
     }
 
     @invalid_development_attrs %{
@@ -262,6 +261,12 @@ defmodule Re.ListingTest do
       assert Keyword.get(changeset.errors, :description) ==
                {"can't be blank", [validation: :required]}
 
+      assert Keyword.get(changeset.errors, :price) ==
+               {"can't be blank", [validation: :required]}
+
+      assert Keyword.get(changeset.errors, :area) ==
+               {"can't be blank", [validation: :required]}
+
       assert Keyword.get(changeset.errors, :address_id) ==
                {"can't be blank", [validation: :required]}
 
@@ -270,15 +275,6 @@ defmodule Re.ListingTest do
 
       assert Keyword.get(changeset.errors, :development_uuid) ==
                {"can't be blank", [validation: :required]}
-
-      assert Keyword.get(changeset.errors, :has_elevator) ==
-               {"is invalid", [type: :boolean, validation: :cast]}
-
-      assert Keyword.get(changeset.errors, :is_exclusive) ==
-               {"is invalid", [type: :boolean, validation: :cast]}
-
-      assert Keyword.get(changeset.errors, :is_release) ==
-               {"is invalid", [type: :boolean, validation: :cast]}
     end
   end
 
