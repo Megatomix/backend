@@ -69,7 +69,10 @@ config :re_integrations,
   credipronto_account_id: System.get_env("CREDIPRONTO_ACCOUNT_ID"),
   grupozap_webhook_secret: System.get_env("GRUPOZAP_WEBHOOK_SECRET"),
   zapier_webhook_user: System.get_env("ZAPIER_WEBHOOK_USER"),
-  zapier_webhook_pass: System.get_env("ZAPIER_WEBHOOK_PASS")
+  zapier_webhook_pass: System.get_env("ZAPIER_WEBHOOK_PASS"),
+  orulo_url: System.get_env("ORULO_URL"),
+  orulo_api_token: System.get_env("ORULO_API_TOKEN"),
+  orulo_client_token: System.get_env("ORULO_CLIENT_TOKEN")
 
 config :re_integrations, ReIntegrations.Search.Cluster,
   url: System.get_env("ELASTICSEARCH_URL"),
